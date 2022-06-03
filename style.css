@@ -69,3 +69,11 @@ input[type=submit]{
     margin-top: 20px;
     width: 50%;
 }
+
+#vol {
+    display: none;
+  }
+  
+#vol:target {
+    display: block;
+  }

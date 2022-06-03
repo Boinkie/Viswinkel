@@ -10,44 +10,58 @@
 </head>
 
 <body>
-	<!--navbar-->
-	<nav>
-		<ul>
-			<li><a href="bestelling.html">Bestellen</a></li>
-			<li><a href="contact.html">Contact</a></li>
-			<li><a href="info.html">Info</a></li>
-		</ul>
-	</nav>
-	<!--titel van de website-->
-	<h1>Viswinkel H.A. Ring</h1>
+	<div id="leeg">
+		<!--navbar-->
+		<nav>
+			<ul>
+				<li><a href="bestelling.html">Bestellen</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li><a href="info.html">Info</a></li>
+			</ul>
+		</nav>
+		<!--titel van de website-->
+		<h1>Viswinkel H.A. Ring</h1>
 
-	<!--overzicht van artikelen en prijzen-->
-	<h3>Deze artikelen kunt u bestellen:</h3>
-	<span id="labelPrijzen"></span>
+		<!--overzicht van artikelen en prijzen-->
+		<h3>Deze artikelen kunt u bestellen:</h3>
+		<span id="labelPrijzen"></span>
 
-	<!--invoervakken voor de bestelling-->
-	<h3 id="kopInvoervakken">Geef hier uw bestelling door:</h3>
-	<span id="labelBestelling"></span>
+		<!--invoervakken voor de bestelling-->
+		<h3 id="kopInvoervakken">Geef hier uw bestelling door:</h3>
+		<span id="labelBestelling"></span>
 
-	<!--bereken prijs knop-->
-	<input type="button" id="buttonPrijs" value="Bereken prijs" onclick="berekening()">
+		<!--bereken prijs knop-->
+		<input type="button" id="buttonPrijs" value="Bereken prijs" onclick="berekening(); location.href = '#vol';">
 
-	<hr>
+		<hr>
+	</div>
 	<!--overzicht bestelling - wordt in Javascript toegevoegd-->
-	<h3 id="kopBestelling"></h3>
-	<span id="bestellingOverzicht"></span>
+	<!--titel van de website-->
+	<div id="vol">
+		<!--navbar-->
+		<nav>
+			<ul>
+				<li><a href="bestelling.html">Bestellen</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li><a href="info.html">Info</a></li>
+			</ul>
+		</nav>
+		<h1>Viswinkel H.A. Ring</h1>
+		<h3 id="kopBestelling"></h3>
+		<span id="bestellingOverzicht"></span>
 
-	<!--overzicht prijs - wordt in Javascript toegevoegd-->
-	<h3 id="kopPrijs"></h3>
-	<span id="prijsOverzicht"></span>
+		<!--overzicht prijs - wordt in Javascript toegevoegd-->
+		<h3 id="kopPrijs"></h3>
+		<span id="prijsOverzicht"></span>
 
-	<!--overzicht korting en totaalprijs - wordt in Javascript toegevoegd-->
-	<span id="discount"></span><br><br>
-	<hr>
-	<span id="labelPrijs"></span><br><br>
+		<!--overzicht korting en totaalprijs - wordt in Javascript toegevoegd-->
+		<span id="discount"></span><br><br>
+		<hr>
+		<span id="labelPrijs"></span><br><br>
 
-	<!-- hieronder komt bestelling knop - wordt in Javascript toegevoegd-->
-	<span id="buttonBestellen"></span><br>
+		<!-- hieronder komt bestelling knop - wordt in Javascript toegevoegd-->
+		<span id="buttonBestellen"></span><br>
+	</div>
 
 </body>
 
@@ -91,6 +105,7 @@
 
 	// berekening van de prijs
 	function berekening() {
+		document.getElementById("leeg").style.display = "none";
 		//De bestelde aantallen in de artikelenarray stoppen
 		for (var i = 0; i < artikelenArray.length; i++) {
 			var aantal = document.getElementById(artikelenArray[i][4]).value;
@@ -157,7 +172,9 @@
 				console.log("Korting " + artikelenArray[i][0] + ": € " + artikelenArray[i][7]);
 				console.log("Totaalprijs " + artikelenArray[i][0] + ": € " + artikelenArray[i][8]);
 			}
+
 		}
+
 
 		//bereken het subtotaal van alle subprijzen, test het in de console en zet het in een object
 		var sum = 0;

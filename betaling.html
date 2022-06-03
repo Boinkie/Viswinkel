@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +8,9 @@
     <link rel="stylesheet" href="style.css">
     <title>Betaling</title>
 </head>
+
 <body>
-<!--navbar-->
+    <!--navbar-->
     <nav>
         <ul>
             <li><a href="bestelling.html">Bestellen</a></li>
@@ -18,40 +20,50 @@
     </nav>
     <h1>Viswinkel H.A. Ring</h1>
 
-    <h3>Uw gegevens:</h3>
-    <b>Naam: </b><input type="text"id="klantNaam"><br>
-    <b>Straat: </b><input type="text"id="klantStraat"><br>
-    <b>Postcode en woonplaats: </b><input type="text"id="klantPlaats"><br>
-    <b>Telefoon: </b><input type="tel" id="klantTelefoon"><br>
-    <b>Email: </b><input type="email" id="klantMail"><br><br>
-    <b>Totaalprijs: </b><span id="totaalprijs"></span><br><br>
-    <hr><br>
-    <form  data-netlify=true >
-    <fieldset>
-        <legend><b>U wilt de bestelling op de volgende manier ontvangen:</b></legend>
-        <div>
-          <input type="radio" id="thuis" name="bestelling" value="thuis">
-          <label for="thuis">Thuis bezorgd.</label><br>
-          <input type="radio" id="winkel" name="bestelling" value="winkel">
-          <label for="winkel">In de winkel ophalen.</label><br><br>
-          <input type="button" onclick="afrekenen()" value="Bestelling bevestigen">
-        </div>
+    <div id="leeg">
+        <h3>Uw gegevens:</h3>
 
-    </fieldset>
-</form><br><br>
+        <b>Naam: </b><input type="text" id="klantNaam" required><br>
+        <b>Straat: </b><input type="text" id="klantStraat" required><br>
+        <b>Postcode en woonplaats: </b><input type="text" id="klantPlaats" required><br>
+        <b>Telefoon: </b><input type="tel" id="klantTelefoon" required><br>
+        <b>Email: </b><input type="email" id="klantMail" required><br><br>
+        <b>Totaalprijs: </b><span id="totaalprijs"></span><br><br>
+        <hr><br>
+        <form>
+            <fieldset>
+                <legend><b>U wilt de bestelling op de volgende manier ontvangen:</b></legend>
+                <div>
+                    <input type="radio" id="thuis" name="bestelling" value="thuis">
+                    <label for="thuis">Thuis bezorgd.</label><br>
+                    <input type="radio" id="winkel" name="bestelling" value="winkel">
+                    <label for="winkel">In de winkel ophalen.</label><br><br>
+                    <input type="button" onclick="afrekenen()" value="Bestelling bevestigen">
+                </div>
+
+            </fieldset>
+        </form>
+    </div><br><br>
     <hr><br><br>
     <span id="tekst"></span>
 
-
-    
 </body>
 
 <script>
     // opgeslagen gegevens terughalen
     var sesUserObject = {};
     sesUserObject = JSON.parse(sessionStorage.getItem('userObject'));
+    if (JSON.parse(sessionStorage.getItem('userObject')) == null) {
+        sesUserObject.naam = "Onbekend";
+        sesUserObject.adres = "Onbekend";
+        sesUserObject.postcode = "Onbekend";
+        sesUserObject.telefoon = "Onbekend";
+        sesUserObject.email = "Onbekend";
+    } else {
+        sesUserObject = JSON.parse(sessionStorage.getItem('userObject'));
+    };
     sesArtikelenArray = JSON.parse(sessionStorage.getItem('sesArtikelenArray'));
-	sesPrijzenArray = JSON.parse(sessionStorage.getItem('sesPrijzenArray'));
+    sesPrijzenArray = JSON.parse(sessionStorage.getItem('sesPrijzenArray'));
     console.log(sesUserObject);
     console.log(sesArtikelenArray);
     console.log(sesPrijzenArray);
@@ -68,22 +80,23 @@
     function afrekenen() {
         var bezorging = "";
         bezorging = document.querySelector('input[name="bestelling"]:checked').value;
-        bezorging.checked=true;
+        bezorging.checked = true;
         console.log(bezorging);
+        document.getElementById("leeg").style.display = "none";
         if (bezorging == "winkel") {
-            var btn = document.getElementById("winkel");
-            btn.check=true;
             var tekst = "<h3>Beste " + sesUserObject.naam + "</h3>";
             tekst += "Uw bestelling ligt morgen klaar in onze winkel. Bedankt voor uw bestelling."
             document.getElementById("tekst").innerHTML = tekst;
+            
         } else if (bezorging == "thuis") {
-            var btn = document.getElementById("thuis");
-            btn.check=true;
             var tekst = "<h3>Beste " + sesUserObject.naam + "</h3>";
             tekst += "Uw bestelling wordt morgen thuis bezorgd. Bedankt voor uw bestelling."
             document.getElementById("tekst").innerHTML = tekst;
+        } else {
+            "Kruis aan of u de bestelling bezorgd wilt hebben of komen ophalen in de winkel";
         }
     }
 
 </script>
+
 </html>

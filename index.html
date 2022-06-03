@@ -29,7 +29,7 @@
 		<input type="button" value="Registreren" onclick="registreren()"><br><br>
 	</div>
 	<div id="registreren" style="display: none;">
-		<form name="aanmeldformulier" action="welkom.html" onsubmit="valideren()" method="post"  data-netlify=true required>
+		<form name="aanmeldformulier" action="welkom.html" onsubmit="valideren()" method="post" required  data-netlify=true >
 			<b>Gebruikersnaam</b><br>
 			<input type="text" id="username" value="" required><br><br>
 			<b>Wachtwoord</b><br>
@@ -126,10 +126,6 @@
 		document.getElementById('registreren').style.display = "none";
 		document.getElementById('welkom').style.display = "block";
 
-	}
-
-	function hello(){
-		console.log("hello");
 	}
 
 </script>
