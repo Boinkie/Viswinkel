@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Viswinkel Besteloverzicht</title>
+
+</head>
+<!--navbar-->
+<nav>
+	<ul>
+		<li><a href="bestelling.html">Bestellen</a></li>
+		<li><a href="contact.html">Contact</a></li>
+		<li><a href="info.html">Info</a></li>
+	</ul>
+</nav>
+
+<!--titel-->
+<h1>Viswinkel H.A. Ring</h1>
+<h2>Besteloverzicht</h1>
+
+<!--Tabel creeren, die in javascript wordt gemaakt-->
+<span id="table1"></span>
+
+<br><br><br>
+
+<!--Aparte tabel voor de bedragen-->
+<TABLE style="width: 20%">
+	<TR>
+		<TD>
+		<TD STYLE="text-align:left">Subtotaalbedrag:</TD>
+		<TD>€ <span id="subtotaalbedrag"></span></TD>
+	<TR>
+	<TR>
+		<TD>
+		<TD STYLE="text-align:left">Uw voordeel:</TD>
+		<TD>€ <span id="voordeel"></span></TD>
+	<TR>
+	<TR>
+		<TD>
+		<TD STYLE="text-align:left">Door u te betalen:</TD>
+		<TD>€ <B><span id="betaalprijs"></B></span></TD>
+	<TR>
+</TABLE>
+<input type="button" id="buttonBetalen" value="Bestelling betalen" onclick="betaling()">
+</body>
+<script>
+	// Anja Rentier
+	// Les 3 Front End Development
+	// Doel: het maken van een viswinkel, in totaal 3 pagina's
+	// Deze pagina laat de uiteindelijke bestelling zien in een tabel
+
+	//array die we gaan gebruiken om de artikelen uit de sessie te halen
+	var sesArtikelenArray = [];
+	// array die we gaan gebruiken om prijzen uit de sessie te halen
+	var sesPrijzenArray = [];
+
+	//artikelgegevens naam artikel en prijs per artikel uit de session halen, terugvormen naar een normale array en testen in de console
+	sesArtikelenArray = JSON.parse(sessionStorage.getItem('sesArtikelenArray'));
+	sesPrijzenArray = JSON.parse(sessionStorage.getItem('sesPrijzenArray'));
+	console.log(sesArtikelenArray);
+	console.log(sesPrijzenArray);
+
+	// tabel maken voor aantallen en prijzen
+	let table = document.createElement('table');
+	table.style.width = '45%';
+	let thead = document.createElement('thead');
+	let tbody = document.createElement('tbody');
+
+	table.appendChild(thead);
+	table.appendChild(tbody);
+
+	// Tabel toevoegen aan body
+	document.getElementById('table1').appendChild(table);
+
+	// Eerste rij van de tabel
+	let rij_1 = document.createElement('tr');
+	let kop_1 = document.createElement('th');
+	kop_1.innerHTML = "<U style='color: #7FB3D5;'>Artikel</U></B>";
+	let kop_2 = document.createElement('th');
+	kop_2.innerHTML = "<U style='color: #7FB3D5;'>Prijs per stuk/kiloprijs</U></B>";
+	let kop_3 = document.createElement('th');
+	kop_3.innerHTML = "<U style='color: #7FB3D5;'>Aantal</U></B>";
+	let kop_4 = document.createElement('th');
+	kop_4.innerHTML = "<U style='color: #7FB3D5;'>Subtotaal</U></B>";
+	let kop_5 = document.createElement('th');
+	kop_5.innerHTML = "<U style='color: #7FB3D5;'>Korting</U></B>";
+	let kop_6 = document.createElement('th');
+	kop_6.innerHTML = "<U style='color: #7FB3D5;'>Te betalen</U></B>";
+
+	rij_1.appendChild(kop_1);
+	rij_1.appendChild(kop_2);
+	rij_1.appendChild(kop_3);
+	rij_1.appendChild(kop_4);
+	rij_1.appendChild(kop_5);
+	rij_1.appendChild(kop_6);
+	thead.appendChild(rij_1);
+
+	// Rijen van de tabel aanmaken per artikel in de array
+	for (var i = 0; i < sesArtikelenArray.length; i++) {
+		let row = document.createElement('tr');
+		let row_data_1 = document.createElement('td');
+		row_data_1.innerHTML = sesArtikelenArray[i][0];
+		let row_data_2 = document.createElement('td');
+		row_data_2.innerHTML = "€ " + sesArtikelenArray[i][1].toFixed(2);
+		let row_data_3 = document.createElement('td');
+		row_data_3.innerHTML = sesArtikelenArray[i][5] + " " + sesArtikelenArray[i][3];
+		let row_data_4 = document.createElement('td');
+		row_data_4.innerHTML = "€ " + sesArtikelenArray[i][6].toFixed(2);
+		let row_data_5 = document.createElement('td');
+		row_data_5.innerHTML = "€ " + sesArtikelenArray[i][7].toFixed(2);
+		let row_data_6 = document.createElement('td');
+		row_data_6.innerHTML = "€ " + sesArtikelenArray[i][8];
+
+		row.appendChild(row_data_1);
+		row.appendChild(row_data_2);
+		row.appendChild(row_data_3);
+		row.appendChild(row_data_4);
+		row.appendChild(row_data_5);
+		row.appendChild(row_data_6);
+		tbody.appendChild(row);
+	};
+
+	// subtotaalbedrag, korting en totaalbedrag berekenen
+	var subtotaal = "";
+	subtotaalbedrag.innerHTML = sesPrijzenArray[0][1].toFixed(2);
+	voordeel.innerHTML = sesPrijzenArray[1][1].toFixed(2);
+	betaalprijs.innerHTML = sesPrijzenArray[2][1].toFixed(2);
+
+	// functie betaling
+	function betaling() {
+		location.href = "betaling.html";
+	}
+</script>
+
+</html>

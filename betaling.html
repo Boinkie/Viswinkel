@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Betaling</title>
+</head>
+<body>
+    <h1>Viswinkel H.A. Ring</h1>
+
+    <h3>Uw gegevens:</h3>
+    <b>Naam: </b><input type="text"id="klantNaam"><br>
+    <b>Straat: </b><input type="text"id="klantStraat"><br>
+    <b>Postcode en woonplaats: </b><input type="text"id="klantPlaats"><br>
+    <b>Telefoon: </b><input type="tel" id="klantTelefoon"><br>
+    <b>Email: </b><input type="email" id="klantMail"><br><br>
+    <b>Totaalprijs: </b><span id="totaalprijs"></span><br><br>
+    <hr><br>
+    <form>
+    <fieldset>
+        <legend><b>U wilt de bestelling op de volgende manier ontvangen:</b></legend>
+        <div>
+          <input type="radio" id="thuis" name="bestelling" value="thuis">
+          <label for="thuis">Thuis bezorgd.</label><br>
+          <input type="radio" id="winkel" name="bestelling" value="winkel">
+          <label for="winkel">In de winkel ophalen.</label><br><br>
+          <input type="button" onclick="afrekenen()" value="Bestelling bevestigen">
+        </div>
+
+    </fieldset>
+</form><br><br>
+    <hr><br><br>
+    <span id="tekst"></span>
+
+
+    
+</body>
+
+<script>
+    // opgeslagen gegevens terughalen
+    var sesUserObject = {};
+    sesUserObject = JSON.parse(sessionStorage.getItem('userObject'));
+    sesArtikelenArray = JSON.parse(sessionStorage.getItem('sesArtikelenArray'));
+	sesPrijzenArray = JSON.parse(sessionStorage.getItem('sesPrijzenArray'));
+    console.log(sesUserObject);
+    console.log(sesArtikelenArray);
+    console.log(sesPrijzenArray);
+
+    // persoonsgegevens van de klant invullen ter controle
+    document.getElementById("klantNaam").value = sesUserObject.naam;
+    document.getElementById("klantStraat").value = sesUserObject.adres;
+    document.getElementById("klantPlaats").value = sesUserObject.postcode;
+    document.getElementById("klantTelefoon").value = sesUserObject.telefoon;
+    document.getElementById("klantMail").value = sesUserObject.email;
+    document.getElementById("totaalprijs").innerHTML = "€ " + sesPrijzenArray[2][1].toFixed(2);
+
+    // functie afrekenen; bestelling van de klant opslaan en bericht
+    function afrekenen() {
+        var bezorging = "";
+        bezorging = document.querySelector('input[name="bestelling"]:checked').value;
+        bezorging.checked=true;
+        console.log(bezorging);
+        if (bezorging == "winkel") {
+            var btn = document.getElementById("winkel");
+            btn.check=true;
+            var tekst = "<h3>Beste " + sesUserObject.naam + "</h3>";
+            tekst += "Uw bestelling ligt morgen klaar in onze winkel. Bedankt voor uw bestelling."
+            document.getElementById("tekst").innerHTML = tekst;
+        } else if (bezorging == "thuis") {
+            var btn = document.getElementById("thuis");
+            btn.check=true;
+            var tekst = "<h3>Beste " + sesUserObject.naam + "</h3>";
+            tekst += "Uw bestelling wordt morgen thuis bezorgd. Bedankt voor uw bestelling."
+            document.getElementById("tekst").innerHTML = tekst;
+        }
+    }
+
+</script>
+</html>

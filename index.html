@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Viswinkel</title> <!-- naam van het tabblad in de browser-->
+</head>
+<style>
+
+</style>
+
+<body>
+	<!--titel en afbeelding-->
+	<h1>Viswinkel H.A. Ring</h1>
+	<img src="fish.png" alt="Fish" onclick="showSite()" id="imgFish" style="display: block">
+	<hr><br>
+
+	<!--tekstvakken en knoppen-->
+	<div id="text" style="display: none;">
+		<b>Gebruikersnaam</b><br>
+		<input type="text" id="g_naam"><br><br>
+		<b>Wachtwoord</b><br>
+		<input type="password" id="w_woord"> <br><br>
+
+		<input type="button" value="Login" onclick="inloggen()">
+		<input type="button" value="Registreren" onclick="registreren()"><br><br>
+	</div>
+	<div id="registreren" style="display: none;">
+		<form name="aanmeldformulier" action="welkom.html" onsubmit="valideren()" method="post" required>
+			<b>Gebruikersnaam</b><br>
+			<input type="text" id="username" value="" required><br><br>
+			<b>Wachtwoord</b><br>
+			<input type="password" id="password" value="" required> <br><br>
+			<b>Naam</b><br>
+			<input type="text" id="naam" required><br><br>
+			<b>Straat en huisnummer</b><br>
+			<input type="text" id="adres" required><br><br>
+			<b>Postcode en plaats</b><br>
+			<input type="text" id="postcode" required><br><br>
+			<b>Email adres</b><br>
+			<input type="email" id="email" required><br><br>
+			<b>Telefoon nummer</b><br>
+			<input type="number" id="telefoon" required><br><br>
+			<input type="submit" value="Registreren">
+		</form>
+	</div>
+
+
+</body>
+<script>
+	// Anja Rentier
+	// Les 3 Front End Development
+	// Doel: het maken van een viswinkel, in totaal 3 pagina's
+	// Deze pagina laat de gebruiker inloggen
+
+
+	// bij klik op plaatje komt de inlogfunctie tevoorschijn
+	function showSite() {
+		var my_disply = document.getElementById('text').style.display;
+		if (my_disply == "block") {
+			document.getElementById('text').style.display = "none";
+			document.getElementById('imgFish').style.display = "block";
+		} else {
+			document.getElementById('text').style.display = "block";
+			document.getElementById('imgFish').style.display = "none";
+		}
+	};
+
+
+	function inloggen() {
+		var gebruikersnaam, wachtwoord;
+		//haalt het ingevoerde gebruikersnaam en wachtwoord op
+		gebruikersnaam = document.getElementById("g_naam").value;
+		wachtwoord = document.getElementById("w_woord").value;
+
+		login(gebruikersnaam, wachtwoord);
+	}
+
+	function login(username, wachtwoord) {
+		//controleert of de ingevoerde input juist is met de gedefinieerde gegevens
+		if (username == "Admin" && wachtwoord == "vis") {
+			//als wordt voldaan aan de voorwaarde, ga dan naar de pagina die wordt genoemd
+			location.href = "bestelling.html";
+		}
+		else {
+			//als niet wordt voldaan, laat dan onderstaande alert zien
+			alert("Gebruikersnaam en/of wachtwoord is niet juist. \nProbeer het opnieuw.");
+		}
+	}
+
+	function registreren(username, wachtwoord) {
+		// toont nieuwe invoervelden, waar de gebruiker zich kan registreren
+		gebruikersnaam = document.getElementById("g_naam").value;
+		wachtwoord = document.getElementById("w_woord").value;
+		document.getElementById('text').style.display = "none";
+		document.getElementById('registreren').style.display = "block";
+		document.getElementById("username").value = gebruikersnaam;
+		document.getElementById("password").value = wachtwoord;
+	}
+
+	function valideren() {
+		var gebruikersnaam, wachtwoord, naam, adres, postcode, email, telefoon;
+		var userObject = {};
+		//haalt de ingevoerde gegevens op en zet ze in een object
+		gebruikersnaam = document.getElementById("username").value;
+		wachtwoord = document.getElementById("password").value;
+		naam = document.getElementById("naam").value;
+		adres = document.getElementById("adres").value;
+		postcode = document.getElementById("postcode").value;
+		email = document.getElementById("email").value;
+		telefoon = document.getElementById("telefoon").value;
+
+		userObject = {
+			"gebruikersnaam": gebruikersnaam,
+			"wachtwoord": wachtwoord,
+			"naam": naam,
+			"adres": adres,
+			"postcode": postcode,
+			"email": email,
+			"telefoon": telefoon
+		};
+		sessionStorage.setItem('userObject', JSON.stringify(userObject));
+		document.getElementById('registreren').style.display = "none";
+		document.getElementById('welkom').style.display = "block";
+
+	}
+
+	function hello(){
+		console.log("hello");
+	}
+
+</script>
+
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<title>Viswinkel bestelling</title> <!-- naam van het tabblad in de browser-->
+</head>
+
+<body>
+	<!--navbar-->
+	<nav>
+		<ul>
+			<li><a href="bestelling.html">Bestellen</a></li>
+			<li><a href="contact.html">Contact</a></li>
+			<li><a href="info.html">Info</a></li>
+		</ul>
+	</nav>
+	<!--titel van de website-->
+	<h1>Viswinkel H.A. Ring</h1>
+
+	<!--overzicht van artikelen en prijzen-->
+	<h3>Deze artikelen kunt u bestellen:</h3>
+	<span id="labelPrijzen"></span>
+
+	<!--invoervakken voor de bestelling-->
+	<h3 id="kopInvoervakken">Geef hier uw bestelling door:</h3>
+	<span id="labelBestelling"></span>
+
+	<!--bereken prijs knop-->
+	<input type="button" id="buttonPrijs" value="Bereken prijs" onclick="berekening()">
+
+	<hr>
+	<!--overzicht bestelling - wordt in Javascript toegevoegd-->
+	<h3 id="kopBestelling"></h3>
+	<span id="bestellingOverzicht"></span>
+
+	<!--overzicht prijs - wordt in Javascript toegevoegd-->
+	<h3 id="kopPrijs"></h3>
+	<span id="prijsOverzicht"></span>
+
+	<!--overzicht korting en totaalprijs - wordt in Javascript toegevoegd-->
+	<span id="discount"></span><br><br>
+	<hr>
+	<span id="labelPrijs"></span><br><br>
+
+	<!-- hieronder komt bestelling knop - wordt in Javascript toegevoegd-->
+	<span id="buttonBestellen"></span><br>
+
+</body>
+
+<script>
+	// Anja Rentier
+	// Les 3 Front End Development
+	// Doel: het maken van een viswinkel, in totaal 3 pagina's
+	// Deze pagina slaat de input van de gebruiker op in arrays en berekent de prijs, korting en totaalbedrag
+
+	// aanmaken artikelenArray: artikel, stuksprijs, eenheid, besteleenheid, invoerveldnaam, aantal besteld, prijs besteld, korting, totaalprijs
+	var artikelenArray = [
+		["Visfriet", 3.50, "bakje", "bakjes", "invoerveldAantalVisfriet", 0, 0, 0, 0],
+		["Viskoekje", 1.75, "stuk", "stuks", "invoerveldAantalViskoekje", 0, 0, 0, 0],
+		["Kibbeling", 11.00, "kilo", "gram", "invoerveldAantalKibbeling", 0, 0, 0, 0],
+		["Zalmsnack", 3.95, "stuk", "stuks", "invoerveldAantalZalmsnack", 0, 0, 0, 0],
+		["Verse Zalmmoot", 32.50, "kilo", "gram", "invoerveldAantalZalmmoot", 0, 0, 0, 0],
+		["Dorade", 11.43, "kilo", "gram", "invoerveldAantalDorade", 0, 0, 0, 0],
+		["Ravigottesaus", 0.60, "bakje", "bakjes", "invoerveldAantalRavigottesaus", 0, 0, 0, 0],
+		["Coctailsaus", 0.60, "bakje", "bakjes", "invoerveldAantalCoctailsaus", 0, 0, 0, 0],
+		["Knoflooksaus", 0.60, "bakje", "bakjes", "invoerveldAantalKnoflooksaus", 0, 0, 0, 0]
+	];
+	// aanmaken prijzenArray: subtotaal, korting, totaalprijs
+	var prijzenArray = [];
+
+	//laat de artikelen en prijzen zien in een lijst
+	let textArtikelen = "<ul>";
+	for (var i = 0; i < artikelenArray.length; i++) {
+		textArtikelen += "<li>" + artikelenArray[i][0] + " kost €" + artikelenArray[i][1].toFixed(2) + " / " + artikelenArray[i][2] + "</li>";
+	}
+	textArtikelen += "</ul>";
+	textArtikelen += "<i>** Op de artikelen die per bakje of stuks gaan, krijgt u 9 cent korting per stuk, als u 3 of meer van deze artikelen bestelt **</i>";
+	document.getElementById("labelPrijzen").innerHTML = textArtikelen;
+
+	// maak de invoervelden van de bestelling
+	let textBestelling = "";
+	for (var i = 0; i < artikelenArray.length; i++) {
+		textBestelling += "Voer het aantal " + artikelenArray[i][3] + " " + artikelenArray[i][0] + " in dat je wilt: <input type='number' min='0' id='" + artikelenArray[i][4] + "' placeholder='...." + artikelenArray[i][3] + "'><br>";
+	}
+	textBestelling += "<br>";
+	document.getElementById("labelBestelling").innerHTML = textBestelling;
+
+	// berekening van de prijs
+	function berekening() {
+		//De bestelde aantallen in de artikelenarray stoppen
+		for (var i = 0; i < artikelenArray.length; i++) {
+			var aantal = document.getElementById(artikelenArray[i][4]).value;
+			if (aantal <= 0) {
+				console.log(artikelenArray[i][0] + ": Invoerwaarde is 0 of kleiner dan 0");
+			} else {
+				artikelenArray[i][5] = aantal;
+			}
+		};
+
+		//bereken de subprijzen van de artikelen aan de hand van de prijs uit de array
+		for (var i = 0; i < artikelenArray.length; i++) {
+			var aantal = artikelenArray[i][5];
+			var prijs = artikelenArray[i][1];
+			var subPrijs = "";
+			if (artikelenArray[i][2] == "kilo") {
+				subPrijs = aantal / 1000 * prijs.toFixed(2);
+				artikelenArray[i][6] = subPrijs;
+				console.log("Subprijs " + artikelenArray[i][0] + ": € " + subPrijs)
+			} else {
+				subPrijs = aantal * prijs.toFixed(2);
+				artikelenArray[i][6] = subPrijs;
+				console.log("Subprijs " + artikelenArray[i][0] + ": € " + subPrijs)
+			}
+		}
+
+		//bereken de korting (korting gaat alleen per stuks, niet per gewicht)
+		for (var i = 0; i < artikelenArray.length; i++) {
+			var korting = "";
+			var totaal = "";
+			if (artikelenArray[i][2] == "kilo") {
+				korting = 0;
+				artikelenArray[i][7] = korting;
+				totaal = artikelenArray[i][6] - artikelenArray[i][7];
+				artikelenArray[i][8] = totaal.toFixed(2);
+				console.log("Korting " + artikelenArray[i][0] + ": € " + artikelenArray[i][7]);
+				console.log("Totaalprijs " + artikelenArray[i][0] + ": € " + artikelenArray[i][8]);
+			} else if (artikelenArray[i][2] == "stuk") {
+				if (artikelenArray[i][5] >= 3) {
+					korting = artikelenArray[i][5] * 0.09;
+					artikelenArray[i][7] = korting;
+					totaal = artikelenArray[i][6] - artikelenArray[i][7];
+					artikelenArray[i][8] = totaal.toFixed(2);
+				} else {
+					korting = 0;
+					artikelenArray[i][7] = korting;
+					totaal = artikelenArray[i][6] - artikelenArray[i][7];
+					artikelenArray[i][8] = totaal.toFixed(2);
+				}
+				console.log("Korting " + artikelenArray[i][0] + ": € " + artikelenArray[i][7]);
+				console.log("Totaalprijs " + artikelenArray[i][0] + ": € " + artikelenArray[i][8]);
+			} else if (artikelenArray[i][2] == "bakje") {
+				if (artikelenArray[i][5] >= 3) {
+					korting = artikelenArray[i][5] * 0.09;
+					artikelenArray[i][7] = korting;
+					totaal = artikelenArray[i][6] - artikelenArray[i][7];
+					artikelenArray[i][8] = totaal.toFixed(2);
+				} else {
+					korting = 0;
+					artikelenArray[i][7] = korting;
+					totaal = artikelenArray[i][6] - artikelenArray[i][7];
+					artikelenArray[i][8] = totaal.toFixed(2);
+				}
+				console.log("Korting " + artikelenArray[i][0] + ": € " + artikelenArray[i][7]);
+				console.log("Totaalprijs " + artikelenArray[i][0] + ": € " + artikelenArray[i][8]);
+			}
+		}
+
+		//bereken het subtotaal van alle subprijzen, test het in de console en zet het in een object
+		var sum = 0;
+		var sumKorting = 0;
+		for (var i = 0; i < artikelenArray.length; i++) {
+			sum += artikelenArray[i][6];
+			sumKorting += artikelenArray[i][7];
+		}
+		prijzenArray.push(
+			["subtotaal", sum],
+			["subkorting", sumKorting]
+		);
+		var totaalPrijs = (sum - sumKorting);
+		console.log("Totaalprijs: " + totaalPrijs);
+		console.log("Totaalkorting: " + sumKorting);
+		prijzenArray.push(["totaalprijs", totaalPrijs]);
+		console.log(prijzenArray);
+
+		// Laat bestelling zien in een nieuw gemaakt overzicht
+		let bestellingOverzicht = "";
+		for (var i = 0; i < artikelenArray.length; i++) {
+			var label = artikelenArray[i][5];
+			bestellingOverzicht += "Aantal " + artikelenArray[i][0] + " (per " + artikelenArray[i][2] + "): " + artikelenArray[i][5] + " " + artikelenArray[i][3] + "<br>";
+		}
+		bestellingOverzicht += "<br><br>";
+		document.getElementById("kopBestelling").innerHTML = "Dit wilt u bestellen:";
+		document.getElementById("bestellingOverzicht").innerHTML = bestellingOverzicht;
+
+		// Laat prijzen zien in een nieuw gemaakt overzicht
+		let prijsOverzicht = "";
+		for (var i = 0; i < artikelenArray.length; i++) {
+			prijsOverzicht += "Prijs " + artikelenArray[i][0] + ": € " + artikelenArray[i][6].toFixed(2) + "<br>";
+		}
+		prijsOverzicht += "<br><br>";
+		document.getElementById("kopPrijs").innerHTML = "Uw bestelling kost:";
+		document.getElementById("prijsOverzicht").innerHTML = prijsOverzicht;
+
+		// Laat kortingsbedrag zien
+		let kortingsOverzicht = "";
+		kortingsOverzicht += "<b>Korting: </b>€ " + sumKorting;
+		document.getElementById("discount").innerHTML = kortingsOverzicht;
+
+		// Laat totaalbedrag zien
+		let totaalOverzicht = "";
+		totaalOverzicht += "<b>Totaalprijs: </b>€ " + totaalPrijs.toFixed(2);
+		totaalOverzicht += "<br>";
+		document.getElementById("labelPrijs").innerHTML = totaalOverzicht;
+
+		// Maak button voor de bestelling
+		var btn = "";
+		btn += '<input type="button" id="buttonBestelling" value="Overzicht bestelling" onclick="bestellen()">';
+		document.getElementById("buttonBestellen").innerHTML = btn;
+	}
+
+	function bestellen() {
+		//Zet de array en object in een session om door te geven aan de volgende pagina.
+		//Een sessionStorage.setItem bestaat uit een 'key' gevolgd door de array of object.
+		//JSON stringify wordt gebruikt om de array of object als een JSON-object door te geven.
+		sessionStorage.setItem('sesArtikelenArray', JSON.stringify(artikelenArray));
+		sessionStorage.setItem('sesPrijzenArray', JSON.stringify(prijzenArray));
+
+		//Geeft aan welke HTML pagina moet worden geopend als er op de knop wordt gedrukt.
+		location.href = "afrekening.html";
+	}
+
+	function berekenTotaal() {
+
+	}
+
+
+</script>
+
+</html>

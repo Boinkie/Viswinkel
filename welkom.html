@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Viswinkel</title>
+</head>
+
+<body>
+    <!--navbar-->
+    <nav>
+        <ul>
+            <li><a href="bestelling.html">Bestellen</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="info.html">Info</a></li>
+        </ul>
+    </nav>
+
+    <!--titel en afbeelding-->
+    <h1>Viswinkel H.A. Ring</h1>
+    <div id="welkom" style="display: block">
+        <h1>Welkom nieuwe klant!</h2>
+        <p>Wij begroeten u hartelijk in onze viswinkel<span id="welkomnaam"></span>. Klik op onderstaande knop om op de
+            bestelpagina te geraken.</p><br><br>
+        <hr>
+        <input type="button" value="Bestellen" onclick="bestellen()">
+    </div>
+
+</body>
+<script>
+    //gebruikersgegevens uit de session halen, terugvormen naar een object en testen in de console
+    var sesUserObject = {};
+    sesUserObject = JSON.parse(sessionStorage.getItem('userObject'));
+    console.log(sesUserObject);
+    naam = sesUserObject.naam;
+    document.getElementById('welkomnaam').innerHTML = ", " + naam;
+
+    function bestellen() {
+        //stuurt de gebruiker door naar de bestelpagina
+        location.href = "bestelling.html";
+    }
+</script>
+
+</html>
