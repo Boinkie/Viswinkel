@@ -6,3 +6,5 @@ De website bestaat uit de volgende pagina's:
 - bestelling.html waar de gebruiker een bestelling kan plaatsen
 - afrekening.html waar de gebruiker een overzicht ziet van de gemaakte bestelling
 - betaling.html waar de gebruiker een overzicht ziet met totaal prijs, zijn gegevens en de mogelijk tot bezorging
+- contact.html met contactgegevens van de winkel
+- info.html met informatie over de winkel
