@@ -72,8 +72,12 @@ input[type=submit]{
 
 #vol {
     display: none;
-  }
+}
   
 #vol:target {
     display: block;
-  }
+}
+
+#contact {
+    text-align: center;
+}
